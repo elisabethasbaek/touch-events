@@ -2,15 +2,17 @@ var xStart;
 var xEnd;
 var yStart;
 var yEnd;
-var tolerance = 50; //px
+var tolerance = 125; //px
 var limit = 40; //deg
 
 var moveMe = document.querySelector(".moveMe");
 var wrapper = document.querySelector(".wrapper");
+var sound = document.querySelector(".sound");
 
 wrapper.addEventListener("touchstart", function(event){
     xStart = event.changedTouches[0].pageX; 
-    yStart = event.changedTouches[0].pageY; 
+    yStart = event.changedTouches[0].pageY;
+    moveMe.classList.add("moved");
 }); 
 
 wrapper.addEventListener("touchend", function(event){
@@ -26,6 +28,9 @@ wrapper.addEventListener("touchend", function(event){
     && yEnd < (yStart + limit)
     && yEnd > (yStart - limit)){
         moveMe.classList.add("moved");
+        sound.play();
+    } else {
+        moveMe.classList.remove("moved");
     }
 
     if ((yEnd + tolerance) < yStart
