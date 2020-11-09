@@ -1,0 +1,24 @@
+.wrapper{
+    width: 90vw;
+    height: 50px;
+    position: relative;
+    box-shadow: inset 0 0 5px 2px rgba(128, 0, 128, 0.4);
+    background: rgba(255, 1, 179, 0.2);
+    border-radius: 25px;
+    margin: 0 auto;
+}
+
+.moveMe{
+    height: 44px;
+    width: 44px;
+    background: yellow;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.moved{
+    transform: translateX(calc(90vw - 49px));
+}
