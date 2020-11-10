@@ -31,10 +31,10 @@ body{
     transition: transform 0.5s cubic-bezier(.42,0,.81,1.44);
 }
 
-.firstSmiley{
+.moveMe:nth-of-type(odd){
     color: yellow;
 }
 
-.secondSmiley{
+.moveMe:nth-of-type(even){
     color: lightblue;
 }
