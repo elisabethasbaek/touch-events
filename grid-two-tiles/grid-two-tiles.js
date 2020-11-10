@@ -2,36 +2,31 @@ var xStart;
 var xEnd;
 var yStart;
 var yEnd;
-var stepX = 0;
-var stepY = 0;
 
 var tolerance = 40;
 var limit = 20;
 
-var moveMe = document.querySelectorAll(".moveMe");
-var firstSmiley = document.querySelector(".firstSmiley");
-var secondSmiley = document.querySelector(".secondSmiley");
+var moveMe = document.querySelectorAll(".moveMe"); // array
+moveMe.forEach(function(listItem){
+    listItem.addEventListener("touchstart", startTouch);
+    listItem.addEventListener("touchend", endTouch);
+});
 
-firstSmiley.addEventListener("touchstart", function(event){
-    xStart = event.changedTouches[0].pageX; 
-    yStart = event.changedTouches[0].pageY;
-}); 
-
-secondSmiley.addEventListener("touchstart", function(event){
-    xStart = event.changedTouches[0].pageX; 
-    yStart = event.changedTouches[0].pageY;
-}); 
-
-firstSmiley.addEventListener("touchend", function(event){
+function endTouch(event){
     xEnd = event.changedTouches[0].pageX; 
     yEnd = event.changedTouches[0].pageY;
+
+    var stepX = parseInt(event.target.dataset.x);
+    var stepY = parseInt(event.target.dataset.y);
 
     if ((xEnd - tolerance) > xStart
     && yEnd < (yStart + limit)
     && yEnd > (yStart - limit)){
         stepX = stepX + 20;
+        if(isOccupied(stepX, stepY)) return;
         if (stepX >= 40) stepX = 40;
-        firstSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
+        event.target.style.transform = `translate(${stepX}vw,${stepY}vw)`;
+        event.target.dataset.x = stepX;
         console.log("right");
     }
 
@@ -39,8 +34,10 @@ firstSmiley.addEventListener("touchend", function(event){
     && yEnd < (yStart + limit)
     && yEnd > (yStart - limit)){
         stepX = stepX - 20;
+        if(isOccupied(stepX, stepY)) return;
         if (stepX <= 0) stepX = 0;
-        firstSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
+        event.target.style.transform = `translate(${stepX}vw,${stepY}vw)`;
+        event.target.dataset.x = stepX;
         console.log("left");
     }
     
@@ -48,8 +45,10 @@ firstSmiley.addEventListener("touchend", function(event){
     && xEnd < (xStart + limit)
     && xEnd > (xStart - limit)){
         stepY = stepY + 20;
+        if(isOccupied(stepX, stepY)) return;
         if (stepY >= 40) stepY = 40;
-        firstSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
+        event.target.style.transform = `translate(${stepX}vw,${stepY}vw)`;
+        event.target.dataset.y = stepY;
         console.log("down");
     }
 
@@ -57,49 +56,28 @@ firstSmiley.addEventListener("touchend", function(event){
     && xEnd < (xStart + limit)
     && xEnd > (xStart - limit)){
         stepY = stepY - 20;
+        if(isOccupied(stepX, stepY)) return;
         if (stepY <= 0) stepY = 0;
-        firstSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
+        event.target.style.transform = `translate(${stepX}vw,${stepY}vw)`;
+        event.target.dataset.y = stepY;
         console.log("up");
     }
-})
+}
 
-secondSmiley.addEventListener("touchend", function(event){
-    xEnd = event.changedTouches[0].pageX; 
-    yEnd = event.changedTouches[0].pageY;
+function startTouch(event){
+    xStart = event.changedTouches[0].pageX; 
+    yStart = event.changedTouches[0].pageY;
+};
 
-    if ((xEnd - tolerance) > xStart
-    && yEnd < (yStart + limit)
-    && yEnd > (yStart - limit)){
-        stepX = stepX + 20;
-        if (stepX <= 0) stepX = 0;
-        secondSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
-        console.log("right");
-    }
+function isOccupied(x, y){
+    var toggle = false;
 
-    if ((xEnd + tolerance) < xStart
-    && yEnd < (yStart + limit)
-    && yEnd > (yStart - limit)){
-        stepX = stepX - 20;
-        if (stepX >= 40) stepX = 40;
-        secondSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
-        console.log("left");
-    }
-    
-    if ((yEnd - tolerance) > yStart
-    && xEnd < (xStart + limit)
-    && xEnd > (xStart - limit)){
-        stepY = stepY + 20;
-        if (stepY <= 0) stepY = 0;
-        secondSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
-        console.log("down");
-    }
+    moveMe.forEach(function(listItem){
+        if(listItem.dataset.x == x
+        && listItem.dataset.y == y){
+            toggle = true;
+        }
+    });
 
-    if ((yEnd + tolerance) < yStart
-    && xEnd < (xStart + limit)
-    && xEnd > (xStart - limit)){
-        stepY = stepY - 20;
-        if (stepY >= 40) stepY = 40;
-        secondSmiley.style.transform = "translate(" + stepX + "vw, " + stepY + "vw)";
-        console.log("up");
-    }
-})
+    return toggle;
+}
