@@ -1,0 +1,43 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    background-color: rgb(238, 253, 253);
+}
+
+.grid{
+    width: 60vw;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 20vw);
+    grid-template-rows: repeat(3, 20vw);
+    background-color: rgba(255, 105, 180, 0.3);
+}
+
+.gridItem{
+    z-index: 10;
+}
+
+.gridItem:nth-of-type(odd){
+    background-color: rgba(255, 105, 180, 0.5);
+}
+
+.moveMe{
+    position: absolute;
+    z-index: 20;
+    height: 20vw;
+    width: 20vw;
+    border-radius: 50%;
+    transition: transform 0.5s cubic-bezier(.42,0,.81,1.44);
+}
+
+.firstSmiley{
+    color: yellow;
+    font-size: 20vw;
+}
+
+.secondSmiley{
+    color: lightblue;
+    font-size: 20vw;
+    top: 40vw;
+    left: 40vw;
+}
